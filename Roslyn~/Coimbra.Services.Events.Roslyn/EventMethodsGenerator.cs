@@ -127,6 +127,15 @@ namespace Coimbra.Services.Events.Roslyn
                         {
                             sourceBuilder.AddLine($"return {CoimbraServicesTypes.ServiceLocatorClass.FullName}.GetChecked<{CoimbraServicesEventsTypes.EventServiceInterface.FullName}>().IsInvoking<{typeName}>();");
                         }
+                        
+                        sourceBuilder.SkipLine();
+                        AddMethodBoilerplate(sourceBuilder, "RemoveListener");
+                        sourceBuilder.AddLine($"public static bool RemoveListener(in {CoimbraServicesEventsTypes.EventHandleStruct.FullName} eventHandle)");
+
+                        using (new BracesScope(sourceBuilder))
+                        {
+                            sourceBuilder.AddLine($"return {CoimbraServicesTypes.ServiceLocatorClass.FullName}.GetChecked<{CoimbraServicesEventsTypes.EventServiceInterface.FullName}>().RemoveListener(eventHandle);");
+                        }
 
                         sourceBuilder.SkipLine();
                         AddMethodBoilerplate(sourceBuilder, "RemoveRelevancyListener");
